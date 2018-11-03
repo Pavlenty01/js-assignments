@@ -102,30 +102,16 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    throw new Error('Not implemented');
-    //current node
-    let cn = root;
-    //sequence
     let seq = [];
-    //result
-    let res = [];
-    seq.push(cn);
-    res.push(cn);
-    yield nc;
-    while(seq.length > 0){
-        for(let i = 0; i < cn.children.length; i += 1){
-            if(res.indexOf(cn.children[i]) < 0){
-                nc = nc.children[i];
-                seq.push(cn);
-                res.push(cn);
-                yield cn;
-            }
+    seq.push(root);
+    for(let i = 0; i < seq.length; i += 1){
+        //current node
+        let cn = seq[i];
+        if(cn.children !== undefined){
+            seq.splice((i + 1), 0, ...cn.children);
         }
-        seq.pop();
-        if(seq.length > 0)
-            nc = seq[seq.length - 1];
+        yield cn
     }
-    return;
 }
 
 
@@ -151,7 +137,18 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    throw new Error('Not implemented');
+    let seq = [];
+    seq.push(root);
+    for(let i = 0; i < seq.length; i += 1){
+        //current node
+        let cn = seq[i];
+        if(cn.children !== undefined){
+            for(let j = 0; j < cn.children.length; j += 1){
+                seq.push(cn.children[j]);
+            }
+        }
+        yield cn
+    }
 }
 
 
@@ -169,27 +166,21 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    throw new Error('Not implemented');
-    let doubleLength = source1.length + source2.length;
-    for(let i = 0, n1 = 0, n2 = 0; i < doubleLength; i += 1){
-        if(source1.length > n1 && source2.length > n2){
-            if(source1[n1] > source2[n2]){
-                yield source2[n2];
-                n2 += 1;
-            }
-            else{
-                yield source1[n1];
-                n1 += 1;
-            }
-        }
-        else if(source1.length > n1){
-            yield source1[n1];
-            n1 += 1;
-        }
-        else if(source2.length > n2){
-            yield source2[n2];
-            n2 += 1;
-        }
+    throw new Error('Not implemented')
+    let n1 = 0;
+    let n2 = 0;
+    while(true){
+        if(source1.length > n1 && source2.length > n2)
+            if(source1[n1] > source2[n2])
+                yield source2[n2++];
+            else
+                yield source1[n1++];
+        else if(source1.length > n1)
+            yield source1[n1++];
+        else if(source2.length > n2)
+            yield source2[n2++];
+        else
+            break;
     }
 }
 

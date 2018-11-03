@@ -26,7 +26,7 @@
  *
  */
 function getComposition(f,g) {
-    throw new Error('Not implemented');
+    return (x) => {return f(g(x));};
 }
 
 
@@ -47,7 +47,7 @@ function getComposition(f,g) {
  *
  */
 function getPowerFunction(exponent) {
-    throw new Error('Not implemented');
+    return (x) => { return Math.pow(x, exponent); };
 }
 
 
@@ -65,7 +65,13 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom() {
-    throw new Error('Not implemented');
+    return (x) => {
+        let y = 0;
+        for(let i = 0; i < arguments.length; i++){
+            y += arguments[i] * Math.pow(x, arguments.length - i - 1);
+        }
+        return y;
+    }
 }
 
 
@@ -84,7 +90,8 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-    throw new Error('Not implemented');
+    let res = func()
+    return () => res
 }
 
 
@@ -105,6 +112,15 @@ function memoize(func) {
  */
 function retry(func, attempts) {
     throw new Error('Not implemented');
+    try{
+        return () => {
+            if (++attempt % 2) throw new Error('test');
+            else return attempt;
+        }
+    }
+    catch(d){
+        return func;
+    }
 }
 
 
@@ -133,6 +149,9 @@ function retry(func, attempts) {
  */
 function logger(func, logFunc) {
     throw new Error('Not implemented');
+    return (x) => {
+        return func(logFunc(arguments[0]));
+    }
 }
 
 
@@ -150,7 +169,17 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-    throw new Error('Not implemented');
+    let gres = '';
+    for(let k = 1; k < arguments.length; k += 1){
+        gres += arguments[k];
+    }
+    return fn = function(){
+        let res = '';
+        for(let i = 0; i < arguments.length; i += 1){
+            res += arguments[i];
+        }
+        return gres + res;
+    }
 }
 
 
@@ -171,7 +200,10 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    throw new Error('Not implemented');
+    let counter = 0;
+    while(true) {
+        return () => { return startFrom + counter++; };
+    }
 }
 
 

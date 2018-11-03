@@ -33,7 +33,18 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+    let i = 99;
+    while(i > 1){
+        let myArr = [];
+        yield i.toString() + ' bottles of beer on the wall, ' + i.toString() + ' bottles of beer.';
+        yield 'Take one down and pass it around, ' + (i - 1).toString() + ' bottle' + ((i - 1) === 1 ? '' : 's') + ' of beer on the wall.';
+        i -= 1;
+    }
+    let myArr = [];
+    yield '1 bottle of beer on the wall, 1 bottle of beer.';
+    yield 'Take one down and pass it around, no more bottles of beer on the wall.';
+    yield 'No more bottles of beer on the wall, no more bottles of beer.';
+    yield 'Go to the store and buy some more, 99 bottles of beer on the wall.';
 }
 
 
@@ -47,7 +58,16 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+    yield 0;
+    yield 1;
+    let num1 = 0;
+    let num2 = 1;
+    while(true){
+        yield num1 + num2;
+        let temp = num2;
+        num2 = num1 + num2;
+        num1 = temp;
+    }
 }
 
 
@@ -83,6 +103,29 @@ function* getFibonacciSequence() {
  */
 function* depthTraversalTree(root) {
     throw new Error('Not implemented');
+    //current node
+    let cn = root;
+    //sequence
+    let seq = [];
+    //result
+    let res = [];
+    seq.push(cn);
+    res.push(cn);
+    yield nc;
+    while(seq.length > 0){
+        for(let i = 0; i < cn.children.length; i += 1){
+            if(res.indexOf(cn.children[i]) < 0){
+                nc = nc.children[i];
+                seq.push(cn);
+                res.push(cn);
+                yield cn;
+            }
+        }
+        seq.pop();
+        if(seq.length > 0)
+            nc = seq[seq.length - 1];
+    }
+    return;
 }
 
 
@@ -127,6 +170,27 @@ function* breadthTraversalTree(root) {
  */
 function* mergeSortedSequences(source1, source2) {
     throw new Error('Not implemented');
+    let doubleLength = source1.length + source2.length;
+    for(let i = 0, n1 = 0, n2 = 0; i < doubleLength; i += 1){
+        if(source1.length > n1 && source2.length > n2){
+            if(source1[n1] > source2[n2]){
+                yield source2[n2];
+                n2 += 1;
+            }
+            else{
+                yield source1[n1];
+                n1 += 1;
+            }
+        }
+        else if(source1.length > n1){
+            yield source1[n1];
+            n1 += 1;
+        }
+        else if(source2.length > n2){
+            yield source2[n2];
+            n2 += 1;
+        }
+    }
 }
 
 
